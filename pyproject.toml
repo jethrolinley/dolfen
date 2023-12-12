@@ -1,0 +1,42 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools-scm[toml]>=6.2", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dolfen"
+authors = [
+    {name = "Jethro Linley", email = "jethro.linley@hotmail.co.uk"},
+]
+description = "Dolfen: Downsampling Likelihood Function Estimation"
+readme = "README.md"
+requires-python = ">=3.7"
+license = {text = "MIT"}
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+keywords = [
+    "bayesian inference",
+    "downsampling",
+]
+dependencies = [
+    "numpy>=1.9",
+    "scipy>0.16",
+]
+dynamic = [
+    "version",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/jethrolinley/dolfen"
+"Documentation" = "https://dolfen.readthedocs.io/"
+
+[project.optional-dependencies]
+docs = [
+    "sphinx",
+    "sphinx_rtd_theme",
+    "numpydoc",
+    "sphinx-autoapi",
+]
+
