@@ -1,6 +1,6 @@
-# dolfen: Downsampling Estimation of the Likelihood function for Time-domain signals
+# dolfen: Downsampling Likelihood Function Estimation
 
-``dolfen``: Downsampling Likelihood Function Estimation
+``dolfen``: Downsampling Estimation of the Likelihood function for Time-domain signals
 
 ``dolfen`` is an algorithm for Bayesian analysis that infers the likelihood function by downsampling. It is designed in particular for use with simulated, long duration, slowly evolving signals consisting of very many datapoints, where the Bayesian likelihood is expensive.
 
