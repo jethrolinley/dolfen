@@ -12,7 +12,7 @@
 #
 import os
 import sys
-#import dolfen
+import dolfen
 
 sys.path.insert(0, os.path.abspath("../dolfen/"))
 
@@ -23,7 +23,7 @@ copyright = "2023, Jethro Linley"
 author = "Jethro Linley"
 
 # The full version, including alpha/beta/rc tags
-# release = dolfen.__version__
+release = dolfen.__version__
 
 
 # -- General configuration ---------------------------------------------------
@@ -33,7 +33,6 @@ author = "Jethro Linley"
 # ones.
 extensions = [
     "sphinx.ext.mathjax",
-    "numpydoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
