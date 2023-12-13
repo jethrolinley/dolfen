@@ -37,7 +37,6 @@ extensions = [
     "sphinx.ext.autosectionlabel",
     "sphinx.ext.autodoc",
     "sphinx.ext.inheritance_diagram",
-    "autoapi.extension",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
