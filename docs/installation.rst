@@ -2,11 +2,11 @@
 Installation
 ============
 
-.. tabs::
+Dolfen is pip installable with the command
 
-     .. code-tab:: console pip
+.. code-block:: python
 
-        pip install dolfen
+    pip install dolfen
 
 Using dolfen with bilby
 =======================
