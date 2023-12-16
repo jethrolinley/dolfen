@@ -28,7 +28,7 @@ class likelihood:
         at the Nyquist frequency of all waveforms with non-negligible probability
         (just above the Nyquist frequency of the injected signal should do).
     model : callable
-        The waveform model, the first argument of which should be the times-stamps, t.
+        The user-defined waveform model, the first argument must be the times-stamps, t.
     inj_params : dict
         The signal's injection parameters for each parameter of the
         signal model: key=param name, value=param value.
@@ -40,15 +40,15 @@ class likelihood:
         the prior should be a float, otherwise it should be an object with a ".minimum"
         and a ".maximum" property.
     scheme : string
-        The 'downsampling scheme' that should be employed by dolfin. Currently accepted
+        The 'downsampling scheme' that should be employed by dolfen. Currently accepted
         schemes are 
-            "rand"      - random downsampling
-            "unif"      - uniform downsampling (a.k.a. decimation)
-            "hybrid"    - a 50:50 split of uniform and random downsampling
-            "cluster,n" - random samples are taken from 'n' uniformly spaced blocks of
+            "rand"      : random downsampling
+            "unif"      : uniform downsampling (a.k.a. decimation)
+            "hybrid"    : a 50:50 split of uniform and random downsampling
+            "cluster,n" : random samples are taken from 'n' uniformly spaced blocks of
                           size 'blocksize'. if n is not specified, n is set to the number
                           of model parameters.
-            "prand"     - 'pseudo-random' downsampling. Mainly used for testing dolfin, for
+            "prand"     : 'pseudo-random' downsampling. Mainly used for testing dolfen, for
                           any given system, a seed is fixed for random sample selection.
     addnoise : Bool
         True to add a random noise realisation to the data from the PSD.
@@ -56,7 +56,8 @@ class likelihood:
         Number of processors to use to compute the Fisher information matrix. Uses all
         available if not set.
     param_diffs : list
-        The step-sizes for numerical derivatives of signal models which dolfin cannot compute.
+        The step-sizes for numerical derivatives of signal model with respect to its parameters,
+        in case dolfen has difficulty in automatically computing them.
     save_load_FIM : Bool
         True if one wishes to write to disk the computed Fisher matrix and derivative step-sizes.
     blocksize : int
@@ -72,21 +73,24 @@ class likelihood:
     GWmodel_margphase : callable
         Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
         Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
-        the example included with dolfin; the model is required to separately return the plus and
+        the example included with dolfen; the model is required to separately return the plus and
         cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
     phase_int_points : int
         The number of discrete integration points to use for marginalising GW phase.
     resume_dir : string
-        Directory for writing/reading downsampling solution information for given dolfin inputs.
+        Directory for writing/reading downsampling solution information for given dolfen inputs.
     forcerun : Bool
         True to force run even if the MCS is large and downsampling would not be expected to yield
         a significant reduction in likelihood evaluation time.
     prsrv_FIM : Bool
-        True to use the (approximate) FIM preservation method of downsampling. False to use the
-        minimisation of Jeffreys' divergence of the FIMs of fully- and down-sampled datasets.
+        True to use the (approximate) FIM preservation method of downsampling. This is the most
+        accurate method. False to use the minimisation of Jeffreys' divergence of the FIMs of fully-
+        and down-sampled datasets. If not supplied, dolfen will try to find FIM preservation
+        solutions a number of times, then revert to FIM Jeffreys' divergence minimisation if no
+        solution can be found.
     MCS_override : int
         The number of maximum correlated samples of any given sample as determined by the inverse
-        autocorrelation function. Any negative value means dolfin will automatically compute this.
+        autocorrelation function. Any negative value means dolfen will automatically compute this.
     """
 
     def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
