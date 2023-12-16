@@ -42,13 +42,12 @@ class likelihood:
     scheme : string
         The 'downsampling scheme' that should be employed by dolfen. Currently accepted
         schemes are 
-            "rand"      : random downsampling
-            "unif"      : uniform downsampling (a.k.a. decimation)
-            "hybrid"    : a 50:50 split of uniform and random downsampling
-            "cluster,n" : random samples are taken from 'n' uniformly spaced blocks of
-                          size 'blocksize'. if n is not specified, n is set to the number
-                          of model parameters.
-            "prand"     : 'pseudo-random' downsampling. Mainly used for testing dolfen, for
+            "rand": random downsampling;
+            "unif": uniform downsampling (a.k.a. decimation);
+            "hybrid": a 50/50 split of uniform and random downsampling;
+            "cluster,n": random samples are taken from 'n' uniformly spaced blocks of
+            size 'blocksize'. if n is not specified, n is set to the number of model parameters;
+            "prand": 'pseudo-random' downsampling. Mainly used for testing dolfen, for
                           any given system, a seed is fixed for random sample selection.
     addnoise : Bool
         True to add a random noise realisation to the data from the PSD.
