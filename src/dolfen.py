@@ -687,8 +687,31 @@ class likelihood:
         return self.origPSD(f)
 
 
-    def __init__(self, t, model, inj_params, PSD, priors, scheme="rand", addnoise=False, numprocs=0, param_diffs=None, save_load_FIM=True, blocksize=1, numsamps=400, f_low_cut=0.0, f_high_cut=0.0, overwritesavedFIM=False, GWmodel_margphase=None, phase_int_points=2007, resume_dir='', forcerun=False, prsrv_FIM=None, MCS_override=-1):
-        print("\nInitialising....                     \r",end="")
+    def __init__(self,
+                 t,
+                 model,
+                 inj_params,
+                 PSD,
+                 priors,
+                 numsamps=400,
+                 scheme="rand",
+                 prsrv_FIM=None,
+                 MCS_override=-1,
+                 addnoise=False,
+                 numprocs=0,
+                 blocksize=1,
+                 f_low_cut=0.0,
+                 f_high_cut=0.0,
+                 GWmodel_margphase=None,
+                 overwritesavedFIM=False,
+                 phase_int_points=2357,
+                 resume_dir='',
+                 forcerun=False,
+                 param_diffs=None,
+                 save_load_FIM=True
+    ):
+
+        print("\nInitialising dolfen....                     \r",end="")
         super(likelihood, self).__init__()
         self.model = model
         self.inj_params = inj_params
