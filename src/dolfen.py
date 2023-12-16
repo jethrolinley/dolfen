@@ -704,7 +704,7 @@ class likelihood:
                  GWmodel_margphase=None,
                  blocksize=1,
                  param_diffs=None,
-                 save_load_FIM=True
+                 save_load_FIM=True,
                  overwritesavedFIM=False,
                  phase_int_points=2357,
                  resume_dir='',
