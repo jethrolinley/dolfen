@@ -18,7 +18,78 @@ from scipy.linalg import LinAlgWarning
 
 
 class likelihood:
-    def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
+        """
+        The 'downsampled' approximation of the Bayesian likelihood function defined by the signal and noise models, and injection parameters.
+
+        Parameters:
+        -----------
+        t : 1-D numpy array
+            The set of time-stamps of the 'original' dataset, sampled at least
+            at the Nyquist frequency of all waveforms with non-negligible probability
+            (just above the Nyquist frequency of the injected signal should do).
+        model : callable
+            The waveform model, the first argument of which should be the times-stamps, t.
+        inj_params : dict
+            The signal's injection parameters for each parameter of the
+            signal model: key=param name, value=param value.
+        PSD : python function
+            The 'Power Spectral Density', a function of frequency, f. This encodes the
+            noise model.
+        priors : dict
+            The parameters (dict keys) and the priors (values). If the parameter is known
+            the prior should be a float, otherwise it should be an object with a ".minimum"
+            and a ".maximum" property.
+        scheme : string
+            The 'downsampling scheme' that should be employed by dolfin. Currently accepted
+            schemes are 
+                "rand"      : random downsampling
+                "unif"      : uniform downsampling (a.k.a. decimation)
+                "hybrid"    : a 50:50 split of uniform and random downsampling
+                "cluster,n" : random samples are taken from 'n' uniformly spaced blocks of
+                              size 'blocksize'. if n is not specified, n is set to the number
+                              of model parameters.
+                "prand"     : 'pseudo-random' downsampling. Mainly used for testing dolfin, for
+                              any given system, a seed is fixed for random sample selection.
+        addnoise : Bool
+            True to add a random noise realisation to the data from the PSD.
+        numprocs : int
+            Number of processors to use to compute the Fisher information matrix. Uses all
+            available if not set.
+        param_diffs : list
+            The step-sizes for numerical derivatives of signal models which dolfin cannot compute.
+        save_load_FIM : Bool
+            True if one wishes to write to disk the computed Fisher matrix and derivative step-sizes.
+        blocksize : int
+            For use with "cluster" downsampling; size of blocks from which to sample
+        numsamps : int
+            The number of datapoints to use for downsampling.
+        f_low_cut, f_high_cut : floats
+            Lowest and highest frequencies at which the PSD is irrelevant to the likelihood; the PSD
+            below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
+            to the PSD at f_high_cut.
+        overwritesavedFIM : Bool
+            If FIM data has already been saved to disk, overwrite it.
+        GWmodel_margphase : callable
+            Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
+            Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
+            the example included with dolfin; the model is required to separately return the plus and
+            cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
+        phase_int_points : int
+            The number of discrete integration points to use for marginalising GW phase.
+        resume_dir : string
+            Directory for writing/reading downsampling solution information for given dolfin inputs.
+        forcerun : Bool
+            True to force run even if the MCS is large and downsampling would not be expected to yield
+            a significant reduction in likelihood evaluation time.
+        prsrv_FIM : Bool
+            True to use the (approximate) FIM preservation method of downsampling. False to use the
+            minimisation of Jeffreys' divergence of the FIMs of fully- and down-sampled datasets.
+        MCS_override : int
+            The number of maximum correlated samples of any given sample as determined by the inverse
+            autocorrelation function. Any negative value means dolfin will automatically compute this.
+        """
+        
+     def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
         if numsamps < 1:
             print("Number of datapoints entered less than 1!!")
             exit()
@@ -610,76 +681,6 @@ class likelihood:
 
 
     def __init__(self, t, model, inj_params, PSD, priors, scheme="rand", addnoise=False, numprocs=0, param_diffs=None, save_load_FIM=True, blocksize=1, numsamps=400, f_low_cut=0.0, f_high_cut=0.0, overwritesavedFIM=False, GWmodel_margphase=None, phase_int_points=2007, resume_dir='', forcerun=False, prsrv_FIM=None, MCS_override=-1):
-        """
-        The 'downsampled' approximation of the Bayesian likelihood function defined by the signal and noise models, and injection parameters.
-
-        Parameters:
-        -----------
-        t : 1-D numpy array
-            The set of time-stamps of the 'original' dataset, sampled at least
-            at the Nyquist frequency of all waveforms with non-negligible probability
-            (just above the Nyquist frequency of the injected signal should do).
-        model : callable
-            The waveform model, the first argument of which should be the times-stamps, t.
-        inj_params : dict
-            The signal's injection parameters for each parameter of the
-            signal model: key=param name, value=param value.
-        PSD : python function
-            The 'Power Spectral Density', a function of frequency, f. This encodes the
-            noise model.
-        priors : dict
-            The parameters (dict keys) and the priors (values). If the parameter is known
-            the prior should be a float, otherwise it should be an object with a ".minimum"
-            and a ".maximum" property.
-        scheme : string
-            The 'downsampling scheme' that should be employed by dolfin. Currently accepted
-            schemes are 
-                "rand"      : random downsampling
-                "unif"      : uniform downsampling (a.k.a. decimation)
-                "hybrid"    : a 50:50 split of uniform and random downsampling
-                "cluster,n" : random samples are taken from 'n' uniformly spaced blocks of
-                              size 'blocksize'. if n is not specified, n is set to the number
-                              of model parameters.
-                "prand"     : 'pseudo-random' downsampling. Mainly used for testing dolfin, for
-                              any given system, a seed is fixed for random sample selection.
-        addnoise : Bool
-            True to add a random noise realisation to the data from the PSD.
-        numprocs : int
-            Number of processors to use to compute the Fisher information matrix. Uses all
-            available if not set.
-        param_diffs : list
-            The step-sizes for numerical derivatives of signal models which dolfin cannot compute.
-        save_load_FIM : Bool
-            True if one wishes to write to disk the computed Fisher matrix and derivative step-sizes.
-        blocksize : int
-            For use with "cluster" downsampling; size of blocks from which to sample
-        numsamps : int
-            The number of datapoints to use for downsampling.
-        f_low_cut, f_high_cut : floats
-            Lowest and highest frequencies at which the PSD is irrelevant to the likelihood; the PSD
-            below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
-            to the PSD at f_high_cut.
-        overwritesavedFIM : Bool
-            If FIM data has already been saved to disk, overwrite it.
-        GWmodel_margphase : callable
-            Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
-            Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
-            the example included with dolfin; the model is required to separately return the plus and
-            cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
-        phase_int_points : int
-            The number of discrete integration points to use for marginalising GW phase.
-        resume_dir : string
-            Directory for writing/reading downsampling solution information for given dolfin inputs.
-        forcerun : Bool
-            True to force run even if the MCS is large and downsampling would not be expected to yield
-            a significant reduction in likelihood evaluation time.
-        prsrv_FIM : Bool
-            True to use the (approximate) FIM preservation method of downsampling. False to use the
-            minimisation of Jeffreys' divergence of the FIMs of fully- and down-sampled datasets.
-        MCS_override : int
-            The number of maximum correlated samples of any given sample as determined by the inverse
-            autocorrelation function. Any negative value means dolfin will automatically compute this.
-        """
         print("\nInitialising....                     \r",end="")
         super(likelihood, self).__init__()
         self.model = model
