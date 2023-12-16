@@ -11,6 +11,6 @@ General configuration
 
 These are general settings which apply to the whole algorithm and are parsed to :py:class:`~dolfen.likelihood`. However some of these settings, such as :code:`prsrv_FIM` which defines what method is used, will affect the ability to find solutions given the number of samples chosen.
 
-.. autoapiclass:: dolfen.likelihood
+.. autoapiclass:: src.likelihood
     :members: None
 
