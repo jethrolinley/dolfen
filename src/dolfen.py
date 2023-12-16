@@ -89,7 +89,7 @@ class likelihood:
             autocorrelation function. Any negative value means dolfin will automatically compute this.
         """
         
-     def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
+    def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
         if numsamps < 1:
             print("Number of datapoints entered less than 1!!")
             exit()
