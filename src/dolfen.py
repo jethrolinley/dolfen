@@ -699,16 +699,16 @@ class likelihood:
                  MCS_override=-1,
                  addnoise=False,
                  numprocs=0,
-                 blocksize=1,
                  f_low_cut=0.0,
                  f_high_cut=0.0,
                  GWmodel_margphase=None,
+                 blocksize=1,
+                 param_diffs=None,
+                 save_load_FIM=True
                  overwritesavedFIM=False,
                  phase_int_points=2357,
                  resume_dir='',
                  forcerun=False,
-                 param_diffs=None,
-                 save_load_FIM=True
     ):
 
         print("\nInitialising dolfen....                     \r",end="")

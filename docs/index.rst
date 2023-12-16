@@ -22,7 +22,7 @@ The code is available at: https://github.com/jethrolinley/dolfen.
    :caption: Contents:
 
    installation
-   configuration
+   settings
 
 .. toctree::
       :maxdepth: 1
