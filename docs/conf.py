@@ -160,3 +160,9 @@ texinfo_documents = [
 
 
 # -- Extension configuration -------------------------------------------------
+
+# -- Configure autoapi -------------------------------------------------------
+autoapi_type = "python"
+autoapi_dirs = ["../dolfen/"]
+autoapi_add_toctree_entry = False
+autoapi_options = ["members", "show-inheritance", "show-module-summary"]
