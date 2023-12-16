@@ -23,7 +23,7 @@ class likelihood:
 
     Parameters
     ----------
-    t : 1-D numpy array
+    t : 1D numpy array
         The set of time-stamps of the 'original' dataset, sampled at least
         at the Nyquist frequency of all waveforms with non-negligible probability
         (just above the Nyquist frequency of the injected signal should do).
@@ -32,13 +32,15 @@ class likelihood:
     inj_params : dict
         The signal's injection parameters for each parameter of the
         signal model: key=param name, value=param value.
-    PSD : python function
+    PSD : callable
         The 'Power Spectral Density', a function of frequency, f. This encodes the
         noise model.
     priors : dict
         The parameters (dict keys) and the priors (values). If the parameter is known
         the prior should be a float, otherwise it should be an object with a ".minimum"
         and a ".maximum" property.
+    numsamps : int
+        The number of datapoints to use for downsampling.
     scheme : string
         The 'downsampling scheme' that should be employed by dolfen. Currently accepted
         schemes are 
@@ -53,38 +55,6 @@ class likelihood:
 
             "prand": 'pseudo-random' downsampling. Mainly used for testing dolfen, for
             any given system, a seed is fixed for random sample selection.
-    addnoise : Bool
-        True to add a random noise realisation to the data from the PSD.
-    numprocs : int
-        Number of processors to use to compute the Fisher information matrix. Uses all
-        available if not set.
-    param_diffs : list
-        The step-sizes for numerical derivatives of signal model with respect to its parameters,
-        in case dolfen has difficulty in automatically computing them.
-    save_load_FIM : Bool
-        True if one wishes to write to disk the computed Fisher matrix and derivative step-sizes.
-    blocksize : int
-        For use with "cluster" downsampling; size of blocks from which to sample
-    numsamps : int
-        The number of datapoints to use for downsampling.
-    f_low_cut, f_high_cut : floats
-        Lowest and highest frequencies at which the PSD is irrelevant to the likelihood; the PSD
-        below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
-        to the PSD at f_high_cut.
-    overwritesavedFIM : Bool
-        If FIM data has already been saved to disk, overwrite it.
-    GWmodel_margphase : callable
-        Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
-        Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
-        the example included with dolfen; the model is required to separately return the plus and
-        cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
-    phase_int_points : int
-        The number of discrete integration points to use for marginalising GW phase.
-    resume_dir : string
-        Directory for writing/reading downsampling solution information for given dolfen inputs.
-    forcerun : Bool
-        True to force run even if the MCS is large and downsampling would not be expected to yield
-        a significant reduction in likelihood evaluation time.
     prsrv_FIM : Bool
         True to use the (approximate) FIM preservation method of downsampling. This is the most
         accurate method. False to use the minimisation of Jeffreys' divergence of the FIMs of fully-
@@ -94,6 +64,36 @@ class likelihood:
     MCS_override : int
         The number of maximum correlated samples of any given sample as determined by the inverse
         autocorrelation function. Any negative value means dolfen will automatically compute this.
+    addnoise : Bool
+        True to add a random noise realisation to the data from the PSD.
+    numprocs : int
+        Number of processors to use to compute the Fisher information matrix. Uses all
+        available if not set.
+    f_low_cut, f_high_cut : floats
+        Lowest and highest frequencies at which the PSD is irrelevant to the likelihood; the PSD
+        below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
+        to the PSD at f_high_cut.
+    GWmodel_margphase : callable
+        Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
+        Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
+        the example included with dolfen; the model is required to separately return the plus and
+        cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
+    blocksize : int
+        For use with "cluster" downsampling; size of blocks from which to sample
+    param_diffs : list
+        The step-sizes for numerical derivatives of signal model with respect to its parameters,
+        in case dolfen has difficulty in automatically computing them.
+    save_load_FIM : Bool
+        True if one wishes to write to disk the computed Fisher matrix and derivative step-sizes.
+    overwritesavedFIM : Bool
+        If FIM data has already been saved to disk, overwrite it.
+    phase_int_points : int
+        The number of discrete integration points to use for marginalising GW phase.
+    resume_dir : string
+        Directory for writing/reading downsampling solution information for given dolfen inputs.
+    forcerun : Bool
+        True to force run even if the MCS is large and downsampling would not be expected to yield
+        a significant reduction in likelihood evaluation time.
     """
 
     def makeSubSet(self, numsamps, numblocks=0, blocksize=1, scheme="rand", resume_dir='', prsrv_FIM=True):
