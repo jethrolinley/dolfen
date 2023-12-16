@@ -23,4 +23,9 @@ then dolfen...
 .. autoapiclass:: dolfen.likelihood
     :members: None
 
+then src dolfen...
+
+.. autoapiclass:: src.dolfen.likelihood
+    :members: None
+
 
