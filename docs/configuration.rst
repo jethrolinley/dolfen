@@ -4,7 +4,7 @@ Standard configuration
 
 There are various settings in ``dolfen`` which can be configured. These can be grouped in to general settings and proposal settings. The former controls general aspects of the sampler such as the model being sampler or how many live points are used. The latter affect the proposal process and how new points are drawn.
 
-All of the settings are controlled when creating an instance of :py:class:`~dolfen.likelihood`. The most important settings to consider when using ``dolfen`` are the :doc:`reparameterisations<reparameterisations>` used for the downsampling scheme.
+All of the settings are controlled when creating an instance of :py:class:`~dolfen.likelihood`. The most important settings to consider when using ``dolfen`` are .....
 
 General configuration
 =====================
