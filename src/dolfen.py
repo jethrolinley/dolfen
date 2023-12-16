@@ -21,8 +21,8 @@ class likelihood:
     """
     The 'downsampled' approximation of the Bayesian likelihood function defined by the signal and noise models, and injection parameters.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     t : 1-D numpy array
         The set of time-stamps of the 'original' dataset, sampled at least
         at the Nyquist frequency of all waveforms with non-negligible probability
