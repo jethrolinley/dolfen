@@ -13,7 +13,7 @@ Dolfen
 
 ``dolfen``: Downsampling Likelihood Function Estimation
 
-``dolfen`` is an algorithm that infers the likelihood function used in Bayesian parameter estimation (PE) by downsampling. It is for use in simulated environments only and is particularly useful for rapid likelihood calculation of long duration, slowly evolving signals consisting of large numbers of datapoints, where the Bayesian likelihood is expensive.
+``dolfen`` is an algorithm that infers the likelihood function used in Bayesian parameter estimation (PE) by downsampling, i.e., discarding most of the datapoints and redefining the inner product to compensate for lost information. It is thus for use in simulated environments only and is particularly useful for rapid likelihood calculation of long duration, slowly evolving signals consisting of large numbers of datapoints, where the Bayesian likelihood is expensive.
 
 The code is available at: https://github.com/jethrolinley/dolfen.
 

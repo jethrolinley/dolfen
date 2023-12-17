@@ -74,7 +74,7 @@ class likelihood:
         below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
         to the PSD at f_high_cut.
     GWmodel_margphase : callable
-        Dolfin was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
+        Dolfen was created for studying likelihoods of gravitational waves of low-mass CBCs in LISA.
         Numerically marginalising the phase of the time-domain CBC GW waveform is possible as per
         the example included with dolfen; the model is required to separately return the plus and
         cross GW polarisations so that the phase marginalised likelihood can be computed quickly.
