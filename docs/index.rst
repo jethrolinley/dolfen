@@ -18,14 +18,14 @@ Dolfen
 The code is available at: https://github.com/jethrolinley/dolfen.
 
 .. toctree::
-      :maxdepth: 0
+      :maxdepth: 1
    :caption: Contents:
 
    installation
    settings
 
 .. toctree::
-      :maxdepth: 0
+      :maxdepth: 1
    :caption: Examples:
 
    bilby-example
