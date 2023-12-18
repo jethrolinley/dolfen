@@ -18,7 +18,7 @@ Dolfen
 The code is available at: https://github.com/jethrolinley/dolfen.
 
 .. toctree::
-      :maxdepth: 1
+   :maxdepth: 1
    :caption: Contents:
 
    installation
@@ -26,7 +26,7 @@ The code is available at: https://github.com/jethrolinley/dolfen.
    usage
 
 .. toctree::
-      :maxdepth: 1
+   :maxdepth: 1
    :caption: Examples:
 
    linear-model
