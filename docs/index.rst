@@ -32,7 +32,7 @@ The code is available at: https://github.com/jethrolinley/dolfen.
    installation
    settings
    usage
-   marginalisations
+   marginalisation
 
 .. toctree::
    :maxdepth: 1
