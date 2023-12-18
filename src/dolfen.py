@@ -34,7 +34,7 @@ class likelihood:
         signal model: key=param name, value=param value.
     PSD : callable
         The 'Power Spectral Density', a function of frequency, f. This encodes the
-        noise model.
+        noise model. Must return 1D array when passed a 1D array.
     priors : dict
         The parameters (dict keys) and the priors (values). If the parameter is known
         the prior should be a float, otherwise it should be an object with a ".minimum"
@@ -66,9 +66,6 @@ class likelihood:
         autocorrelation function. Any negative value means dolfen will automatically compute this.
     addnoise : Bool
         True to add a random noise realisation to the data from the PSD.
-    numprocs : int
-        Number of processors to use to compute the Fisher information matrix. Uses all
-        available if not set.
     f_low_cut, f_high_cut : floats
         Lowest and highest frequencies at which the PSD is irrelevant to the likelihood; the PSD
         below f_low_cut is set equal to the PSD at f_low_cut, the PSD above f_high_cut is set equal
@@ -91,6 +88,9 @@ class likelihood:
         The number of discrete integration points to use for marginalising GW phase.
     resume_dir : string
         Directory for writing/reading downsampling solution information for given dolfen inputs.
+    numprocs : int
+        Number of processors to use to compute the Fisher information matrix. Uses all
+        available if not set.
     forcerun : Bool
         True to force run even if the MCS is large and downsampling would not be expected to yield
         a significant reduction in likelihood evaluation time.
@@ -698,7 +698,6 @@ class likelihood:
                  prsrv_FIM=None,
                  MCS_override=-1,
                  addnoise=False,
-                 numprocs=0,
                  f_low_cut=0.0,
                  f_high_cut=0.0,
                  GWmodel_margphase=None,
@@ -708,6 +707,7 @@ class likelihood:
                  overwritesavedFIM=False,
                  phase_int_points=2357,
                  resume_dir='',
+                 numprocs=0,
                  forcerun=False,
     ):
 

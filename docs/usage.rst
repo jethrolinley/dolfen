@@ -6,7 +6,7 @@ There are various simplifying settings that can be chosen which can drastically 
 
 The process of obtaining a high accuracy likelihood/posterior with ``dolfen`` may go as follows:
 
-#. Choose a low number of samples, around 100, say, and choose zero maximum correlated samples; :code:`numsamps=100, MCS=0`. Then 100 data points only will be used. Note that without choosing a downsampling method, ``dolfen`` by default first tries to find a solution via approximate FIM preservation, then reverts to single factor noise reduction to find a solution. If your model is very expensive and ``dolfen`` is taking too long to find a FIM preserving solution with the low :code:`numsamps`, you could try again with single factor method selected on initialisation of ``dolfen``. 
+#. Choose a low number of samples, around 100, say, and choose zero maximum correlated samples when initialising ``dolfen``; :code:`numsamps=100, MCS=0`. Then 100 data points only will be used. Note that without choosing a downsampling method, ``dolfen`` by default first tries to find a solution via approximate FIM preservation, then reverts to single factor noise reduction to find a solution. If your model is very expensive and ``dolfen`` is taking too long to find a FIM preserving solution with the low :code:`numsamps`, you could try again with single factor method selected on initialisation of ``dolfen``. 
 
 #. When ``dolfen`` is initialised, start computing posteriors (with bilby, for example) and work out the appropriate priors and any other PE settings.
 
