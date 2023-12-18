@@ -24,6 +24,7 @@ The code is available at: https://github.com/jethrolinley/dolfen.
    installation
    settings
    usage
+   gw-inf
 
 .. toctree::
    :maxdepth: 1
