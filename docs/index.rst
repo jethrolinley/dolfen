@@ -5,7 +5,7 @@
 
 
 Welcome to dolfen's documentation!
-========================================
+==================================
 
 ======
 Dolfen
@@ -23,9 +23,11 @@ The code is available at: https://github.com/jethrolinley/dolfen.
 
    installation
    settings
+   usage
 
 .. toctree::
       :maxdepth: 1
    :caption: Examples:
 
+   linear-model
    bilby-example

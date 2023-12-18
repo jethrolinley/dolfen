@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='dolfen',
-    version='0.0.1',
+    version='0.0.2',
     description='Downsampling Likelihood Function Estimation',
     py_modules=['dolfen'],
     package_dir={'':'src'},
@@ -15,5 +15,5 @@ setup(
     author_email='jethro.linley@hotmail.co.uk',
     url='http://dolfen.readthedocs.org/',
     download_url='http://pypi.python.org/pypi/dolfen',
-    install_requires=['numpy>=1.25.2','scipy>=1.11.2'],
+    install_requires=['numpy>=1.9','scipy>=0.16'],
 )
