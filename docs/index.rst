@@ -20,7 +20,7 @@ Dolfen
 Time-domain Gravitational Wave Inference
 ----------------------------------------
 
-Although ``dolfen`` has general application, it was created for the specific problem of simulated parameter estimation of long-duration, slow-evolution waveforms from low to intermediate mass compact binary coalescences, which will be present in the data recorded by the `LISA gravitational wave observatory <https://en.wikipedia.org/wiki/Laser_Interferometer_Space_Antenna>_`. In this case, working in the time-, rather than frequency-domain, can be particularly helpful for detailed modelling of the waveform, as some realistic time-dependent processes are expected to have significant impact on GW production and propagation, and thus ultimately the morphology of the waveforms.
+Although ``dolfen`` has general application, it was created for the specific problem of simulated parameter estimation of long-duration, slow-evolution waveforms from low to intermediate mass compact binary coalescences, which will be present in the data recorded by the `LISA gravitational wave observatory <https://en.wikipedia.org/wiki/Laser_Interferometer_Space_Antenna>`_. In this case, working in the time-, rather than frequency-domain, can be particularly helpful for detailed modelling of the waveform, as some realistic time-dependent processes are expected to have significant impact on GW production and propagation, and thus ultimately the morphology of the waveforms.
 
 
 The code is available at: https://github.com/jethrolinley/dolfen.
