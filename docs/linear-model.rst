@@ -1,6 +1,6 @@
-===========================
-Simple linear model example
-===========================
+===================
+Simple linear model
+===================
 
 Here is a very basic example of using ``dolfen``.
 
