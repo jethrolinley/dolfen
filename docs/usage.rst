@@ -2,13 +2,13 @@
 Recommended Usage
 =================
 
-There are various simplifying settings that can be chosen which can drastically speed up the likelihood evaluation, at the cost of assured accuracy. This provides a rapid feedback arena for working out some useful properties of the likelihood, for example, giving a good idea of the parameter errors/standard deviations, so that appropriate priors can be chosen (note also that a rough first idea of the priors can be derived from the Fisher information matrix). Once the PE setup is arranged, one can then revert to the default ``dolfen`` settings which may take a while longer to evaluate (but still likely very much faster than not using ``dolfen``!), however, the fine details of the returned likelihood function will then be likely to be highly accurate. 
+There are various simplifying settings that can be chosen which can drastically speed up the likelihood evaluation, at the cost of assured accuracy. This provides a rapid feedback arena for working out some useful properties of the likelihood, for example, giving a good idea of the parameter errors/standard deviations, so that appropriate priors can be chosen (note also that a rough first idea of the priors can be derived from the inverse of the Fisher information matrix). Once the PE setup is arranged, one can then revert to the default ``dolfen`` settings which may take a little longer to evaluate (but still likely very much faster than not using ``dolfen``!), however, the fine details of the returned likelihood function will then be likely to be highly accurate. 
 
 The process of obtaining a high accuracy likelihood/posterior with ``dolfen`` may go as follows:
 
 .. note::
 
-    One may obtain essentially indistinguishable likelihoods/posteriors from different choice of ``MCS``, the number of maximum correlated samples, especially when using the FIM preservation method. However, whilst lower ``MCS`` means faster likelihood evaluation, unfortunately as a result of the theoretical background, one can only expect high accuracy from dolfen when ``MCS`` is high (or left to default settings).
+    One may obtain essentially indistinguishable likelihoods/posteriors from different choice of MCS, the number of *maximum correlated samples*, especially when using the FIM preservation method. However, one can only theoretically *expect* high accuracy from dolfen when MCS is larger than some PSD defined constant (i.e., left to default settings).
 
 #. Choose a low number of samples, around 100, say, and choose zero maximum correlated samples when initialising ``dolfen``; :code:`numsamps=100, MCS_override=0`. Then 100 data points only will be used. Note that without choosing a downsampling method, ``dolfen`` by default first tries to find a solution via approximate FIM preservation, then reverts to single factor noise reduction to find a solution. If your model is very expensive and ``dolfen`` is taking too long to find a FIM preserving solution with the low :code:`numsamps`, you could try again with single factor method selected on initialisation of ``dolfen``, i.e. :code:`prsrv_FIM=False`. 
 
