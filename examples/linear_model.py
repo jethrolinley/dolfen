@@ -23,7 +23,7 @@ t = np.linspace(0., 1., 2000)
 # Now initialise dolfen
 llhood = dolfen.likelihood(t, model, inj_param, PSD, priors)
 
-# Return dolfen likelihood at the set parameters
+# Choose a parameter and return dolfen likelihood there
 llhood.parameters = {'d': 0.1}
 llhood.log_likelihood()
 

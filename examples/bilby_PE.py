@@ -79,8 +79,8 @@ def chirpmass_massratio_to_componentmasses(chirpmass,q):
 year = 3.15581497632e7
 signal_duration = 4.*year
 signal_end_to_t_c = 0.1*year
-signal_start_time = t_c - signal_duration - signal_end_to_t_c
-signal_end_time = signal_start_time + signal_duration
+signal_end_time = t_c - signal_end_to_t_c
+signal_start_time = signal_end_time - signal_duration
 
 ## Here we just want to get the Nyquist frequency of the injected signal
 m1, m2 = chirpmass_massratio_to_componentmasses(chirp_mass, mass_ratio)
