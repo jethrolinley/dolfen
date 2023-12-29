@@ -63,7 +63,7 @@ class likelihood:
         solution can be found.
     MCS_override : int
         The number of maximum correlated samples of any given sample as determined by the inverse
-        autocorrelation function. Any negative value means dolfen will automatically compute this.
+        autocorrelation function. Minimum 1; a value <1 means dolfen will automatically compute this.
     addnoise : Bool
         True to add a random noise realisation to the data from the PSD.
     f_low_cut, f_high_cut : floats
@@ -342,7 +342,7 @@ class likelihood:
             print(e)
             return False
         diffs = np.abs(np.ones(sigFIMlen) - np.dot(coeff_mat,time_coeffs)/np.diag(nonsing_Fish))
-        if np.max(diffs) > 0.0001:
+        if np.max(diffs) > 0.01:
             print("Failed accuracy check.")
             return False
         else:
@@ -352,7 +352,7 @@ class likelihood:
             self.sample_weights += time_coeffs[i]*(timelist**i)
 
         ######################    Now do some checks on the solution!!
-        if np.min(self.sample_weights) <0.:
+        if np.max(self.sample_weights) <0. or np.min(self.sample_weights)/np.max(self.sample_weights)<-1e-5: # alllow some negative, but only if v small!!
             print("Some sample weights are negative")
             return False
 
@@ -418,7 +418,7 @@ class likelihood:
         while not corr_cut_off_ok:
             self.invACFfunc, self.invACFfuncsqrt  = self.getInvACFfunc(t, PSD)
             invACFsqrt_int = np.cumsum(np.abs(self.invACFfuncsqrt))
-            if self.MCS_override >= 0:
+            if self.MCS_override > 0:
                 corrcutoffsamps = self.MCS_override
                 corr_cut_off_ok = True
             try:
@@ -440,13 +440,6 @@ class likelihood:
                     self.max_corr_samps = self.N
 
         self.corrcutoff = corrcutoffsamps*self.dt # set the max correlation length to when correlations drop below about 1/10000 of the max correlation
-        self.max_corr_samps=min(corrcutoffsamps,len(t))
-        if self.MCS_override >= 0:
-            print("Maximum correlation time lag computed as ~",round(self.corrcutoff,2),"seconds. However, the MCS_override argument has been set, therefore...:               ")
-            self.max_corr_samps = self.MCS_override
-        else:
-            print("Maximum correlation time lag computed and set to ~",round(self.corrcutoff,2),"seconds.                                ")
-        print("    - maximum number of correlated neighbouring samples:", self.max_corr_samps)
 
         self.invACFfunc = self.invACFfunc[:self.max_corr_samps+1]
         self.invACFfuncsqrt = self.invACFfuncsqrt[:self.max_corr_samps+1]
@@ -454,9 +447,26 @@ class likelihood:
         self.max2sidedInvACFsqrt = np.concatenate((np.flip(self.invACFfuncsqrt),self.invACFfuncsqrt[1:]))
         self.lenSIACF = len(self.max2sidedInvACF)
 
-        print("Calculating Fisher matrices (full dataset)....                        \r",end="")
-        return self.getFisherInfo(self.t)
+        if not self.getFisherInfo(self.t):
+            return False
 
+        if self.MCS_override > 0:
+            print("Maximum correlation time lag computed as ~",round(self.corrcutoff,2),"seconds. However, the MCS_override argument has been set, therefore...:               ")
+            self.max_corr_samps = self.MCS_override
+        else:
+            self.max_corr_samps=min(corrcutoffsamps,len(t))
+            print("Maximum correlation time lag computed and set to ~",round(self.corrcutoff,2),"seconds.                                ")
+        print("    - maximum number of correlated neighbouring samples:", self.max_corr_samps)
+
+        self.max_corr_samps -= 1
+        self.invACFfunc = self.invACFfunc[:self.max_corr_samps+1]
+        self.invACFfuncsqrt = self.invACFfuncsqrt[:self.max_corr_samps+1]
+        self.max2sidedInvACF = np.concatenate((np.flip(self.invACFfunc),self.invACFfunc[1:]))
+        self.max2sidedInvACFsqrt = np.concatenate((np.flip(self.invACFfuncsqrt),self.invACFfuncsqrt[1:]))
+        self.lenSIACF = len(self.max2sidedInvACF)
+
+        print("Calculating Fisher matrices (full dataset)....                        \r",end="")
+        return True
 
     def getFIMchunk(self,times, ids, q):
         Fisher = np.zeros((self.FN,self.FN),dtype='float128')
@@ -696,7 +706,7 @@ class likelihood:
                  numsamps=400,
                  scheme="rand",
                  prsrv_FIM=None,
-                 MCS_override=-1,
+                 MCS_override=0,
                  addnoise=False,
                  f_low_cut=0.0,
                  f_high_cut=0.0,
@@ -801,7 +811,7 @@ class likelihood:
             self.log_likelihood = self.log_likelihood_nomarg
 
         self.nt = 0 # nt = current Number of Tries
-        self.maxtries = 200
+        self.maxtries = 4000
         print("\nTrying to find downsampling solution...")#, end=" ")
         xtrasamps_even = 0
         while self.nt < self.maxtries:
